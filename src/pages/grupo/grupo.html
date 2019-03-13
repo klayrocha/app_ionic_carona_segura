@@ -1,0 +1,44 @@
+
+<ion-header>
+    <menu-header menu-close [title]="'Grupos'"></menu-header>
+
+    <ion-toolbar color="primary">
+      <ion-segment [(ngModel)]="view" color="branco">
+        <ion-segment-button value="grupo">
+          Grupos
+        </ion-segment-button>
+        <ion-segment-button value="addgrupo">
+          Criar Grupo
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+
+        <div [ngSwitch]="view" [formGroup]="grupoForm">
+                <ion-list *ngSwitchCase="'addgrupo'">
+                        <ion-item>
+                            <ion-icon name="people" item-left color="primary"></ion-icon>
+                            <ion-input type="text" placeholder="Nome Grupo" formControlName="nome"></ion-input>
+                          </ion-item>
+                
+                        <br>
+                </ion-list>  
+
+                <ion-list *ngSwitchCase="'grupo'">
+                        <ion-item *ngFor="let grupo of grupoList" (click)="pushTela(grupo)">
+                            <ion-icon name="people" item-left color="primary"></ion-icon>
+                          {{ grupo.nome }}
+                        </ion-item>
+                </ion-list>             
+        </div>
+
+</ion-content>
+
+<ion-footer [ngSwitch]="view">
+  <ion-fab (click)="salvarGrupo()" bottom right *ngSwitchCase="'addgrupo'">
+    <ion-icon ion-fab name="checkmark" style="font-size: 2.5em;"></ion-icon>
+  </ion-fab>
+</ion-footer>

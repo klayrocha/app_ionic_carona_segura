@@ -1,0 +1,23 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>solicitaSenha</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="senhaForm"> 
+    
+         <ion-item>
+            <ion-icon name="mail" item-left color="primary"></ion-icon>
+            <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+        </ion-item>    
+    
+        <br>
+
+        <button ion-button block class="botom" color="primary" (click)="enviarEmail()" [disabled]="senhaForm.invalid">Enviar</button>
+      </form>  
+</ion-content>

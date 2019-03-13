@@ -1,0 +1,31 @@
+
+<ion-header>
+  <menu-header menu-close [title]="'Troca Senha'"></menu-header>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <form [formGroup]="alteraSenhaForm">
+    
+    <ion-item>
+      <ion-icon name="lock" item-left color="primary"></ion-icon>
+      <ion-input type="password" placeholder="Senha Atual" formControlName="senhaAtual"></ion-input>
+  </ion-item> 
+
+  <ion-item>
+    <ion-icon name="key" item-left color="primary"></ion-icon>
+    <ion-input type="password" placeholder="Senha Nova" formControlName="novaSenha"></ion-input>
+</ion-item> 
+
+<ion-item>
+  <ion-icon name="key" item-left color="primary"></ion-icon>
+  <ion-input type="password" placeholder="Confirma Senha Nova" formControlName="senhaConfirma"></ion-input>
+</ion-item>   
+    
+        <br>
+
+        <button ion-button block class="botom" color="primary" (click)="trocaSenha()" [disabled]="alteraSenhaForm.invalid">Enviar</button>
+      </form> 
+</ion-content>

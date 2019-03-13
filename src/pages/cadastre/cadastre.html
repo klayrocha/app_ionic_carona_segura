@@ -1,0 +1,47 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Criar Conta</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <div>
+    <ion-avatar class="background-menu">
+        <img class="round" height="200" [src]="foto || 'assets/images/no-photo.jpg'" >
+    </ion-avatar>
+</div>
+<ion-item>
+    <ion-icon name="image" item-left color="primary"></ion-icon>
+    <input type="file" (change)="onPhoto($event)">
+</ion-item>  
+  <form [formGroup]="cadastreForm" (ngSubmit)="onSubmit(); $event.preventDefault()">
+
+      <ion-item>
+        <ion-icon name="person" item-left color="primary"></ion-icon>
+        <ion-input type="text" placeholder="Nome" formControlName="nome"></ion-input>
+      </ion-item> 
+
+     <ion-item>
+        <ion-icon name="mail" item-left color="primary"></ion-icon>
+        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+    </ion-item>  
+
+    <ion-item>
+        <ion-icon name="call" item-left color="primary"></ion-icon>
+        <ion-input  type="tel" placeholder="(99)99999-9999" maxlength="14" [brmasker]="{mask:'(00)00000-0000', len:14}" formControlName="telefone"></ion-input>
+    </ion-item> 
+
+    <ion-item>
+        <ion-icon name="lock" item-left color="primary"></ion-icon>
+        <ion-input type="password" placeholder="Senha" formControlName="senha"></ion-input>
+    </ion-item>  
+
+    <br>
+    <button ion-button full type="submit"  [disabled]="cadastreForm.invalid">Criar Conta</button>
+  </form>  
+
+</ion-content>

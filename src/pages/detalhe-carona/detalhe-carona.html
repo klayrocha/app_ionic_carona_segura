@@ -1,0 +1,173 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>detalhe-carona</ion-title>
+    <ion-option *ngIf="this.idUser == idCriadorCarona">
+      <ion-buttons end>
+        <button ion-button icon-only (click)="presentPopover($event)">
+    <ion-icon name="more"></ion-icon>
+  </button>
+      </ion-buttons>
+    </ion-option>
+  </ion-navbar>
+
+  <ion-toolbar color="primary">
+    <ion-segment [(ngModel)]="view" color="branco">
+      <ion-segment-button value="carona" (click)="carona()">
+        Carona
+      </ion-segment-button>
+      <ion-segment-button value="chat" (click)="Chat()">
+        Chat
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <div [ngSwitch]="view" [formGroup]="caronaForm">
+
+    <ion-list *ngSwitchCase="'carona'">
+      <ion-item-sliding #item>
+        <ion-item>
+          <ion-label style="min-width: 20% !important;max-width: 20% !important;" color="primary">Origem:</ion-label>
+
+          <ion-select formControlName="origem"  style="min-width: 80% !important;max-width: 80% !important;"
+                      [disabled]="editar">
+            <ion-option *ngFor="let ori of localidadeLista" value="{{ori.id}}">
+              {{ori.nome}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item-options side="right">
+          <button ion-button icon-only (click)="presentPopoverLocalidade()">
+                 <ion-icon name="ios-add-circle-outline"></ion-icon>
+               </button>
+        </ion-item-options>
+      </ion-item-sliding>
+
+      <ion-item-sliding #item2>
+        <ion-item>
+          <ion-label style="min-width: 20% !important;max-width: 20% !important;" color="primary">Destino:</ion-label>
+          <ion-select formControlName="destino" style="min-width: 80% !important;max-width: 80% !important;"
+                      [disabled]="editar">
+            <ion-option *ngFor="let dest of localidadeLista" value="{{dest.id}}">
+              {{dest.nome}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item-options side="right">
+          <button ion-button icon-only (click)="presentPopoverLocalidade()">
+                    <ion-icon name="ios-add-circle-outline"></ion-icon>
+                  </button>
+        </ion-item-options>
+      </ion-item-sliding>
+
+      <ion-item>
+        <ion-label color="primary">Data</ion-label>
+        <ion-datetime displayFormat="YYYY/MM/DD" min="2017" max="2022-12-31" [(ngModel)]="data" formControlName="data" [disabled]="editar"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="primary">Hora</ion-label>
+        <ion-datetime displayFormat="HH:mm" [(ngModel)]="horaSaida" formControlName="horaSaida" [disabled]="editar"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="primary">Vaga:</ion-label>
+        <ion-select [(ngModel)]="quantidadeVagas" formControlName="quantidadeVagas" [disabled]="editar">
+          <ion-option value="1">1 - vaga</ion-option>
+          <ion-option value="2">2 - vagas</ion-option>
+          <ion-option value="3">3 - vagas</ion-option>
+          <ion-option value="4">4 - vagas</ion-option>
+          <ion-option value="5">5 - vagas</ion-option>
+          <ion-option value="6">6 - vagas</ion-option>
+          <ion-option value="7">7 - vagas</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-textarea placeholder="Descrição da Vaga" formControlName="observacao" [disabled]="editar"></ion-textarea>
+      </ion-item>
+
+      <ion-list radio-group [(ngModel)]="formaPagamento" formControlName="formaPagamento" [disabled]="editar">
+        <ion-item>
+          <ion-label color="primary">Contribuição</ion-label>
+          <ion-radio value="p" [disabled]="editar"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary">Gratuita</ion-label>
+          <ion-radio value="g" [disabled]="editar"></ion-radio>
+        </ion-item>
+      </ion-list>
+
+
+      <ion-list no-lines>
+        <ng-container *ngFor="let userCarona of usuarioCaronaList">
+          <ion-option [value]="userCarona" *ngIf="userCarona.id == idCriadorCarona">
+            <ion-item>
+              <ion-icon name="car" item-right color="primary"></ion-icon>
+              <img class="foto-user" height="45" [src]="userCarona.foto || 'assets/images/no-photo.jpg'"> {{ userCarona.nome }}
+            </ion-item>
+          </ion-option>
+          <ion-option [value]="userCarona" *ngIf="userCarona.id != idCriadorCarona">
+            <ion-item>
+              <img class="foto-user" height="45" [src]="userCarona.foto || 'assets/images/no-photo.jpg'"> {{ userCarona.nome }}
+            </ion-item>
+          </ion-option>
+        </ng-container>
+      </ion-list>
+
+      <ion-option *ngIf="this.idUser != idCriadorCarona && this.retornoIdUser != 0">
+        <button ion-button [hidden]="naoEdita" color="danger" (click)="sairVaga()" icon-end>
+        Sair da Vaga
+        <br>
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+      </ion-option>
+
+      <ion-option *ngIf="this.retornoIdUser == 0 && usuariosCarona != qtdVaga">
+        <button ion-button [hidden]="naoEdita" color="primary" (click)="reservaVaga()" icon-end>
+              Reservar Vaga
+              <br>
+              <ion-icon name="car"></ion-icon>
+            </button>
+      </ion-option>
+
+      <ion-fab left>
+        <button ion-fab (click)="cancelar()" icon-only [hidden]="editar">
+        <ion-icon  name="close" style="font-size: 2.5em;"></ion-icon>
+      </button>
+      </ion-fab>
+
+      <ion-fab right>
+        <button ion-fab (click)="alterarCarona()" icon-only left [hidden]="editar">
+        <ion-icon  name="checkmark" style="font-size: 2.5em;"></ion-icon>
+      </button>
+      </ion-fab>
+    </ion-list>
+
+    <div *ngSwitchCase="'chat'">
+      <ion-list no-lines>
+        <menssage-box *ngFor="let m of mensagemLista.mensagens" [mensage]="m" [isFromSender]="m.usuario === idUser"></menssage-box>
+      </ion-list>
+    </div>
+
+  </div>
+
+</ion-content>
+
+<ion-footer [ngSwitch]="view">
+  <ion-toolbar *ngSwitchCase="'chat'">
+    <ion-item no-lines>
+      <ion-input type="text" (keyup.enter)="enviarMensagem(novaMensagem); novaMensagem=''" placeholder="Mensagem..." [(ngModel)]="novaMensagem"></ion-input>
+      <button ion-fab mini item-right (click)="enviarMensagem(novaMensagem); novaMensagem=''">
+          <ion-icon name="send" item-right style="font-size: 2.0em;"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

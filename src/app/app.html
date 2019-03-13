@@ -1,0 +1,51 @@
+<ion-menu [content]="myContent">
+
+        <ion-header>
+                <ion-toolbar color="primary">
+                        <ion-title>Menu</ion-title>
+                </ion-toolbar>
+        </ion-header>
+
+        <ion-content>
+                <div [formGroup]="loginForm">
+                        <ion-avatar class="background-menu">
+                                <img class="round" height="200" [src]=" fotoMenu || 'assets/images/no-photo.jpg'">
+                                <h3>
+                                        <ion-input [disabled]="true" text-center formControlName="nomeLogin"></ion-input>
+                                </h3>
+                        </ion-avatar>
+
+                </div>
+
+                <ion-list color="primary">
+                        <button ion-item *ngFor="let p of pagesMenu" (click)="openPage(p)" menuClose color="primary">
+                      <ion-option [value]="p" *ngIf="p.title == 'Perfil'">      
+                        <ion-icon name="person" item-right style="font-size: 1.5em"></ion-icon>
+                        {{ p.title }}
+                      </ion-option>
+                      <ion-option [value]="p" *ngIf="p.title == 'Grupos'">      
+                        <ion-icon name="contacts" item-right style="font-size: 1.5em"></ion-icon>
+                        {{ p.title }}
+                        </ion-option>
+                        <ion-option [value]="p" *ngIf="p.title == 'Minhas Caronas'">      
+                         <ion-icon name="ios-car" item-right style="font-size: 1.5em"></ion-icon>
+                        {{ p.title }}
+                         </ion-option>
+                         <ion-option [value]="p" *ngIf="p.title == 'Alterar Senha'">      
+                         <ion-icon name="key" item-right style="font-size: 1.5em"></ion-icon>
+                         {{ p.title }}
+                         </ion-option>
+                         <ion-option [value]="p" *ngIf="p.title == 'Sair'">      
+                        <ion-icon name="log-out" item-right style="font-size: 1.5em"></ion-icon>
+                        {{ p.title }}
+                        </ion-option>
+                        <ion-option [value]="p" *ngIf="p.title == 'Ajuda'">      
+                         <ion-icon name="information-circle" item-right style="font-size: 1.5em"></ion-icon>
+                        {{ p.title }}
+                        </ion-option>
+                    </button>
+                </ion-list>
+        </ion-content>
+</ion-menu>
+
+<ion-nav #myContent [root]="rootPage"></ion-nav>

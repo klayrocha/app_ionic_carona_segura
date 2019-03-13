@@ -1,0 +1,100 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title >carona</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+ <form [formGroup]="caronaForm" >
+  <ion-list>
+    <ion-item-sliding #item>
+      <ion-item>
+        <ion-label style="min-width: 20% !important;max-width: 20% !important;"  color="primary">Origem:</ion-label>
+        <ion-select style="min-width: 80% !important;max-width: 80% !important;" 
+                    [(ngModel)]="ori" formControlName="origem" placeholder="Arraste para incluir Novo">
+          <ion-option *ngFor="let ori of localidadeLista" [value]="ori">
+            {{ori.nome}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      
+      <ion-item-options side="right">
+         <button ion-button icon-only (click)="presentPopover()">
+           <ion-icon name="ios-add-circle-outline"></ion-icon>
+         </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-list>
+    <ion-item-sliding #item2>
+      <ion-item>
+        <ion-label style="min-width: 20% !important;max-width: 20% !important;" color="primary">Destino:</ion-label>
+        <ion-select style="min-width: 80% !important;max-width: 80% !important;"  
+                    [(ngModel)]="dest" formControlName="destino" placeholder="Arraste para incluir Novo">
+          <ion-option *ngFor="let dest of localidadeLista" [value]="dest">
+            {{dest.nome}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+        
+      <ion-item-options side="right">
+            <button ion-button icon-only (click)="presentPopover()">
+            <ion-icon name="ios-add-circle-outline"></ion-icon>
+          </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-item>
+      <ion-label color="primary">Data</ion-label>
+      <ion-datetime displayFormat="YYYY/MM/DD" min="2017" max="2022-12-31" [(ngModel)]="data" formControlName="data"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+      <ion-label color="primary">Hora</ion-label>
+      <ion-datetime displayFormat="HH:mm" [(ngModel)]="horaSaida" formControlName="horaSaida"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+      <ion-label color="primary">Vaga:</ion-label>
+      <ion-select [(ngModel)]="quantidadeVagas" formControlName="quantidadeVagas">
+        <ion-option value="1">1 - vaga</ion-option>
+        <ion-option value="2">2 - vagas</ion-option>
+        <ion-option value="3">3 - vagas</ion-option>
+        <ion-option value="4">4 - vagas</ion-option>
+        <ion-option value="5">5 - vagas</ion-option>
+        <ion-option value="6">6 - vagas</ion-option>
+        <ion-option value="7">7 - vagas</ion-option>
+      </ion-select>
+    </ion-item> 
+
+    <ion-item>
+        <ion-textarea placeholder="Descrição da Vaga" formControlName="observacao"></ion-textarea>
+      </ion-item>
+
+      <ion-list radio-group [(ngModel)]="formaPagamento" formControlName="formaPagamento">
+          <ion-item>
+            <ion-label color="primary">Contribuição</ion-label>
+            <ion-radio value="p" ></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label color="primary">Gratuita</ion-label>
+            <ion-radio value="g" [disabled]="isDisabled"></ion-radio>
+          </ion-item>
+      </ion-list>
+
+    <br>
+  </form> 
+</ion-content>
+
+<ion-footer>
+  <ion-fab (click)='onSubmit()' bottom right>
+    <ion-icon ion-fab name="checkmark" style="font-size: 2.5em;"></ion-icon>
+  </ion-fab>
+</ion-footer>

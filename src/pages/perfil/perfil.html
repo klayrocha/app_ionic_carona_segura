@@ -1,0 +1,42 @@
+<ion-header>
+    <menu-header menu-close [title]="'Perfil'"></menu-header>
+</ion-header>
+
+<ion-content padding class="back">
+
+    <div>
+        <ion-avatar class="background-menu">
+            <img class="round" height="200" [src]="foto || 'assets/images/no-photo.jpg'">
+        </ion-avatar>
+    </div>
+    <ion-item>
+        <ion-icon name="image" item-left color="primary"></ion-icon>
+        <input type="file" (change)="onPhoto($event)">
+    </ion-item>  
+      <form [formGroup]="usuarioForm">
+    
+          <ion-item>
+            <ion-icon name="person" item-left color="primary"></ion-icon>
+            <ion-input type="text" placeholder="Nome" formControlName="nome"></ion-input>
+          </ion-item> 
+    
+         <ion-item>
+            <ion-icon name="mail" item-left color="primary"></ion-icon>
+            <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+        </ion-item>  
+    
+        <ion-item>
+            <ion-icon name="call" item-left color="primary"></ion-icon>
+            <ion-input  type="tel" placeholder="(99)99999-9999" maxlength="14" [brmasker]="{mask:'(00)00000-0000', len:14}" formControlName="telefone"></ion-input>
+        </ion-item>  
+    
+        <br>
+      </form>  
+
+</ion-content>
+
+<ion-footer>
+    <ion-fab (click)="onSubmit()" bottom right>
+      <ion-icon ion-fab name="checkmark" style="font-size: 2.5em;"></ion-icon>
+    </ion-fab>
+  </ion-footer>

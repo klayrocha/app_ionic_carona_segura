@@ -1,0 +1,92 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>
+     {{nomeGrupo}}
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+    <ion-icon name="more"></ion-icon>
+  </button>
+    </ion-buttons>
+  </ion-navbar>
+
+  <ion-toolbar color="primary">
+    <ion-segment [(ngModel)]="view" color="branco">
+      <ion-segment-button value="carona">
+        Caronas
+      </ion-segment-button>
+      <ion-segment-button value="filtro" (click)='lerLocalidade()'>
+        Filtro Caronas
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <div [ngSwitch]="view" [formGroup]="filtroForm">
+    <ion-list *ngSwitchCase="'carona'">
+      <ion-item *ngFor="let carona of caronaLista" (click)="pushTela(carona.id)" text-wrap detail-push>
+          <ion-icon name="pin" item-left color="primary"></ion-icon>
+          De: {{ carona.origem.nome }}  
+          <br>Para: {{ carona.destino.nome }}
+          <br>Data: {{carona.data}} - {{ carona.horaSaida }}
+          <br>{{ carona.quantidadeVagas - carona.usuarios.length }} vagas Disponiveis
+          <img *ngIf="carona.formaPagamento == 'p'" item-right [src]="'assets/images/doacao.png'">
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'filtro'">
+
+      <ion-list>
+        <ion-item>
+          <ion-label color="primary">Origem:</ion-label>
+          <ion-select [(ngModel)]="ori" formControlName="origem">
+            <ion-option *ngFor="let ori of localidadeLista" [value]="ori">
+              {{ori.nome}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-item>
+          <ion-label color="primary">Destino:</ion-label>
+          <ion-select [(ngModel)]="dest" formControlName="destino">
+            <ion-option *ngFor="let dest of localidadeLista" [value]="dest">
+              {{dest.nome}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-item>
+        <ion-label color="primary">Data</ion-label>
+        <ion-datetime displayFormat="YYYY/MM/DD" [(ngModel)]="data" formControlName="data"></ion-datetime>
+      </ion-item>
+
+      <ion-list>
+        <ion-item *ngFor="let filtrocarona of caronafiltro" (click)="pushTela(filtrocarona.id)" text-wrap detail-push>
+          <ion-icon name="pin" color="primary" item-left ></ion-icon>
+          De: {{ filtrocarona.origem.nome }}  
+          <br>Para: {{ filtrocarona.destino.nome }}
+          <br>Data: {{filtrocarona.data}} - {{ filtrocarona.horaSaida }}
+          <br>{{ filtrocarona.quantidadeVagas - (filtrocarona.usuarios.length - 1)}} vagas Disponiveis
+        </ion-item>
+      </ion-list>
+
+      <br>
+
+    </ion-list>
+
+  </div>
+
+</ion-content>
+
+<ion-footer [ngSwitch]="view">
+    <ion-fab (click)="filtrarCarona()" bottom right *ngSwitchCase="'filtro'">
+      <ion-icon ion-fab name="search" style="font-size: 2.5em;"></ion-icon>
+    </ion-fab>
+</ion-footer>

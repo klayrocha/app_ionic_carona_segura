@@ -1,0 +1,36 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>
+      Usúarios do Grupo
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ng-container *ngFor="let usergrupo of usuariogrupoList">
+      <ion-option [value]="usergrupo" *ngIf="usergrupo.adm == 'S'" (click)="presentPopover(usergrupo.id)">
+        <ion-item>
+          <ion-icon name="contact" item-right color="secondary"></ion-icon>
+          <img class="foto-user" height="45" [src]="usergrupo.foto || 'assets/images/no-photo.jpg'"> {{ usergrupo.nome }}
+        </ion-item>
+      </ion-option>
+      <ion-option [value]="usergrupo" *ngIf="usergrupo.adm == 'N'" (click)="presentPopover(usergrupo.id)">
+        <ion-item>
+          <img class="foto-user" height="45" [src]="usergrupo.foto || 'assets/images/no-photo.jpg'"> {{ usergrupo.nome }}
+        </ion-item>
+      </ion-option>
+    </ng-container>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Carregando...">
+  </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
